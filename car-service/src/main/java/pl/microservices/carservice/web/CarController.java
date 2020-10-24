@@ -1,5 +1,6 @@
 package pl.microservices.carservice.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.microservices.carservice.model.Car;
 import pl.microservices.carservice.service.CarService;
@@ -31,17 +32,20 @@ public class CarController {
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public Long save(@RequestBody Car car) {
         return carService.save(car)
                 .getId();
     }
 
     @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
         carService.deleteById(id);
     }
 
     @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void put(@RequestBody Car car) {
         carService.save(car);
     }
