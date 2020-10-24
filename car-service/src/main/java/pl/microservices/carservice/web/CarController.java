@@ -7,7 +7,8 @@ import pl.microservices.carservice.service.CarService;
 
 import java.util.List;
 
-@RestController("/api/v1/cars")
+@RestController
+@RequestMapping("/api/v1/cars")
 public class CarController {
     private CarService carService;
 
