@@ -13,6 +13,7 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>car-rental</name>
     <description>Renting cars - with microservices</description>
+    <packaging>pom</packaging>
 
     <properties>
         <java.version>11</java.version>
