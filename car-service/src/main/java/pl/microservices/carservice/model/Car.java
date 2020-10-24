@@ -11,10 +11,10 @@ import java.time.LocalDateTime;
 @Data
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence-generator")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
     @SequenceGenerator(
-            name = "sequence-generator",
-            sequenceName = "car-sequence"
+            name = "sequence_generator",
+            sequenceName = "car_sequence"
     )
     private Long id;
 
