@@ -1,1 +1,6 @@
-
+#app configs
+spring:
+  application:
+    name: car-service
+server:
+  port: 8090
