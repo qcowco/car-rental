@@ -2,6 +2,7 @@ package pl.microservices.carservice.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.javamoney.moneta.Money;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -27,4 +28,6 @@ public class Car {
     @CreationTimestamp
     private LocalDateTime registeredAt;
     private Address address;
+
+    private Money pricePerDay;
 }
