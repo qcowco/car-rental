@@ -6,6 +6,7 @@ import pl.microservices.rentalservice.model.Rental;
 import pl.microservices.rentalservice.service.RentalService;
 
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 public class RentalController {
@@ -34,6 +35,9 @@ public class RentalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long save(@RequestBody Rental rental) {
+        if (Objects.nonNull(rental.getId()))
+            throw new IllegalArgumentException("Id needs to be empty");
+
         return rentalService.save(rental)
                 .getId();
     }
