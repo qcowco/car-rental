@@ -2,9 +2,9 @@ package pl.microservices.carservice.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
-import org.javamoney.moneta.Money;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Entity
@@ -29,5 +29,6 @@ public class Car {
     private LocalDateTime registeredAt;
     private Address address;
 
-    private Money pricePerDay;
+    private BigDecimal pricePerDay;
+
 }
