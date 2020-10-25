@@ -1,5 +1,12 @@
+#app
 spring:
   application:
     name: rental-request-service
 server:
   port: 8092
+
+#eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
