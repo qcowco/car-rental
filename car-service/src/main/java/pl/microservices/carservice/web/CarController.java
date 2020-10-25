@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.microservices.carservice.model.Car;
 import pl.microservices.carservice.service.CarService;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/v1/cars")
@@ -34,7 +36,7 @@ public class CarController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long save(@RequestBody Car car) {
+    public Long save(@Valid @RequestBody Car car) {
         return carService.save(car)
                 .getId();
     }
@@ -47,7 +49,10 @@ public class CarController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void put(@RequestBody Car car) {
+    public void put(@Valid @RequestBody Car car) {
+        if (Objects.isNull(car.getId()))
+            throw new IllegalArgumentException("Id need not be null while updating");
+
         carService.save(car);
     }
 }

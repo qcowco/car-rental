@@ -2,8 +2,11 @@ package pl.microservices.carservice.model;
 
 import lombok.Data;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -18,7 +21,8 @@ public class Car {
     )
     private Long id;
 
-    private int productionYear;
+    @Range(min = 1900, max = 2100)
+    private Integer productionYear;
     private String make;
     private String model;
     private String driveType;
@@ -27,8 +31,10 @@ public class Car {
 
     @CreationTimestamp
     private LocalDateTime registeredAt;
+    @Valid
     private Address address;
 
+    @Positive
     private BigDecimal pricePerDay;
 
 }
