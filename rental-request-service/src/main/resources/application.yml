@@ -1,1 +1,5 @@
-
+spring:
+  application:
+    name: rental-request-service
+server:
+  port: 8092
