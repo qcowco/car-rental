@@ -5,7 +5,9 @@ import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalrequestservice.model.RentalRequest;
 import pl.microservices.rentalrequestservice.service.RentalRequestService;
 
+import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 
 @RestController
 @RequestMapping(path = "/api/v1/rental-requests")
@@ -34,14 +36,17 @@ public class RentalRequestController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long save(@RequestBody RentalRequest rentalRequest) {
+    public Long save(@Valid @RequestBody RentalRequest rentalRequest) {
         return rentalRequestService.save(rentalRequest)
                 .getId();
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void put(@RequestBody RentalRequest rentalRequest) {
+    public void put(@Valid @RequestBody RentalRequest rentalRequest) {
+        if (Objects.isNull(rentalRequest.getId()))
+            throw new IllegalArgumentException("Id need not be null while updating");
+
         rentalRequestService.save(rentalRequest);
     }
 
