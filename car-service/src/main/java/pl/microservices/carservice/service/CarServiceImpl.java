@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.microservices.carservice.dao.CarRepository;
-import pl.microservices.carservice.exception.ResourceNotFound;
+import pl.microservices.carservice.exception.ResourceNotFoundException;
 import pl.microservices.carservice.model.Car;
 
 @Service
@@ -28,7 +28,7 @@ public class CarServiceImpl implements CarService {
     @Override
     public Car findById(Long id) {
         return carRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFound(String.format("Car with id %d not found", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Car with id %d not found", id)));
     }
 
     @Override
@@ -41,7 +41,7 @@ public class CarServiceImpl implements CarService {
         if (carRepository.existsById(id))
             carRepository.deleteById(id);
         else
-            throw new ResourceNotFound(String.format("Car with id %d not found", id));
+            throw new ResourceNotFoundException(String.format("Car with id %d not found", id));
     }
 
 }

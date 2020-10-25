@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import pl.microservices.rentalrequestservice.dao.RentalRequestRepository;
-import pl.microservices.rentalrequestservice.exception.ResourceNotFound;
+import pl.microservices.rentalrequestservice.exception.ResourceNotFoundException;
 import pl.microservices.rentalrequestservice.model.RentalRequest;
 
 @Service
@@ -28,7 +28,7 @@ public class RentalRequestServiceImpl implements RentalRequestService {
     @Override
     public RentalRequest findById(Long id) {
         return rentalRequestRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFound(String.format("Request with id %d not found", id)));
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("Request with id %d not found", id)));
     }
 
     @Override
@@ -41,6 +41,6 @@ public class RentalRequestServiceImpl implements RentalRequestService {
         if (rentalRequestRepository.existsById(id))
             rentalRequestRepository.deleteById(id);
         else
-            throw new ResourceNotFound(String.format("Request with id %d not found", id));
+            throw new ResourceNotFoundException(String.format("Request with id %d not found", id));
     }
 }
