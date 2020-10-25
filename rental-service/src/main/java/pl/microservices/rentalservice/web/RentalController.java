@@ -1,55 +1,53 @@
 package pl.microservices.rentalservice.web;
 
-import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.microservices.rentalservice.dao.RentalRepository;
 import pl.microservices.rentalservice.model.Rental;
+import pl.microservices.rentalservice.service.RentalService;
 
 import java.util.List;
 
 @RestController
 public class RentalController {
-    private RentalRepository rentalRepository;
+    private RentalService rentalService;
 
-    public RentalController(RentalRepository rentalRepository) {
-        this.rentalRepository = rentalRepository;
+    public RentalController(RentalService rentalService) {
+        this.rentalService = rentalService;
     }
 
     @GetMapping
     public Iterable<Rental> findAll() {
-        return rentalRepository.findAll();
+        return rentalService.findAll();
     }
 
     @GetMapping(params = { "page", "size" })
     public List<Rental> findAllPaged(@RequestParam int page, @RequestParam int size) {
-        return rentalRepository.findAll(PageRequest.of(page, size))
+        return rentalService.findAll(page, size)
                 .getContent();
     }
 
     @GetMapping("/{id}")
     public Rental findById(@PathVariable Long id) {
-        return rentalRepository.findById(id)
-                .orElseThrow();
+        return rentalService.findById(id);
     }
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long save(@RequestBody Rental rental) {
-        return rentalRepository.save(rental)
+        return rentalService.save(rental)
                 .getId();
     }
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void put(@RequestBody Rental rental) {
-        rentalRepository.save(rental);
+        rentalService.save(rental);
     }
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
-        rentalRepository.deleteById(id);
+        rentalService.deleteById(id);
     }
 
     // TODO: 25.10.2020 znajdz wolne fury w danym terminie
