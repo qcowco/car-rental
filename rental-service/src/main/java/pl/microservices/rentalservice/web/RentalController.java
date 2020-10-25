@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalservice.model.Rental;
 import pl.microservices.rentalservice.service.RentalService;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,7 +35,7 @@ public class RentalController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public Long save(@RequestBody Rental rental) {
+    public Long save(@Valid @RequestBody Rental rental) {
         if (Objects.nonNull(rental.getId()))
             throw new IllegalArgumentException("Id needs to be empty");
 
@@ -44,7 +45,10 @@ public class RentalController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void put(@RequestBody Rental rental) {
+    public void put(@Valid @RequestBody Rental rental) {
+        if (Objects.isNull(rental.getId()))
+            throw new IllegalArgumentException("Id need not be null while updating");
+
         rentalService.save(rental);
     }
 
