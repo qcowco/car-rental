@@ -86,9 +86,17 @@ public class RentalRequestController {
             throw new IllegalArgumentException("The selected car doesn't exist");
     }
 
-    @DeleteMapping("/{id}")
+    @PostMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable Long id) {
+    public void evaluateRequest(@PathVariable Long id, @RequestBody RequestEvaluation requestEvaluation) {
+        if (requestEvaluation.isApproved()) {
+            RentalRequest rentalRequest = rentalRequestService.findById(id);
+
+            isCarRentable(rentalRequest);
+
+            rentalClient.save(rentalRequest);
+        }
+
         rentalRequestService.deleteById(id);
     }
 
