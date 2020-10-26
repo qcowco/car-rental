@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Repository
 public interface RentalRepository extends PagingAndSortingRepository<Rental, Long> {
     boolean existsByCarIdAndDateToAfter(Long carId, LocalDate now);
-    boolean existsByCarIdAndDateFromBetweenOrDateToBetween(
-            Long carId, LocalDate dateFrom, LocalDate dateFrom2, LocalDate dateTo, LocalDate dateTo2
+    boolean existsByCarIdAndDateFromBetweenOrCarIdAndDateToBetween(
+            Long carId, LocalDate dateFrom, LocalDate dateFrom2, Long carId2, LocalDate dateTo, LocalDate dateTo2
     );
 }
