@@ -19,6 +19,13 @@
         <java.version>11</java.version>
     </properties>
 
+    <modules>
+        <module>car-service</module>
+        <module>discovery-service</module>
+        <module>rental-request-service</module>
+        <module>rental-service</module>
+    </modules>
+
     <build>
         <plugins>
             <plugin>
