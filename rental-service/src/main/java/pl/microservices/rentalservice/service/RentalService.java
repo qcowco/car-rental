@@ -3,6 +3,8 @@ package pl.microservices.rentalservice.service;
 import org.springframework.data.domain.Page;
 import pl.microservices.rentalservice.model.Rental;
 
+import java.time.LocalDate;
+
 public interface RentalService {
     Iterable<Rental> findAll();
 
@@ -13,4 +15,6 @@ public interface RentalService {
     Rental save(Rental rental);
 
     void deleteById(Long id);
+
+    boolean isCarFree(Long id, LocalDate start, LocalDate end);
 }

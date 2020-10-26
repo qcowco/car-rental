@@ -1,11 +1,13 @@
 package pl.microservices.rentalservice.web;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalservice.model.Rental;
 import pl.microservices.rentalservice.service.RentalService;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Objects;
 
@@ -58,5 +60,12 @@ public class RentalController {
         rentalService.deleteById(id);
     }
 
-    // TODO: 25.10.2020 znajdz wolne fury w danym terminie
+    @GetMapping(path = "/{id}", params = { "start", "end" })
+    public boolean isCarFree(@PathVariable Long id,
+                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
+    ) {
+        return rentalService.isCarFree(id, start, end);
+    }
+
 }

@@ -7,6 +7,8 @@ import pl.microservices.rentalservice.dao.RentalRepository;
 import pl.microservices.rentalservice.exception.ResourceNotFoundException;
 import pl.microservices.rentalservice.model.Rental;
 
+import java.time.LocalDate;
+
 @Service
 public class RentalServiceImpl implements RentalService {
     private RentalRepository rentalRepository;
@@ -42,5 +44,10 @@ public class RentalServiceImpl implements RentalService {
             rentalRepository.deleteById(id);
         else
             throw new ResourceNotFoundException(String.format("Rental with id %d not found", id));
+    }
+
+    @Override
+    public boolean isCarFree(Long id, LocalDate start, LocalDate end) {
+        return !rentalRepository.existsByCarIdAndDateFromBetweenOrDateToBetween(id, start, end, start, end);
     }
 }
