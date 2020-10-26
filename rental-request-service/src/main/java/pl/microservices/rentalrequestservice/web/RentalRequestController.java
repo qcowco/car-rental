@@ -46,8 +46,7 @@ public class RentalRequestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long save(@Valid @RequestBody RentalRequest rentalRequest) {
-        if (Objects.nonNull(rentalRequest.getId()))
-            throw new IllegalArgumentException("Id needs to be empty");
+        rentalRequest.setId(null);
 
         isCarRentable(rentalRequest);
 
@@ -72,6 +71,11 @@ public class RentalRequestController {
         isFree(rentalRequest.getCarId(), rentalRequest.getDateFrom(), rentalRequest.getDateTo());
     }
 
+    private void carExists(@NotNull Long carId) {
+        if (Objects.isNull(carClient.findById(carId)))
+            throw new IllegalArgumentException("The selected car doesn't exist");
+    }
+
     private void isFree(Long carId, LocalDate dateFrom, LocalDate dateTo) {
         if (!rentalClient.isCarFree(carId, dateFrom, dateTo))
             throw new IllegalArgumentException(String.format(
@@ -79,11 +83,6 @@ public class RentalRequestController {
                     dateFrom.toString(),
                     dateTo.toString())
             );
-    }
-
-    private void carExists(@NotNull Long carId) {
-        if (Objects.isNull(carClient.findById(carId)))
-            throw new IllegalArgumentException("The selected car doesn't exist");
     }
 
     @PostMapping("/{id}")

@@ -37,8 +37,7 @@ public class CarController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long save(@Valid @RequestBody Car car) {
-        if (Objects.nonNull(car.getId()))
-            throw new IllegalArgumentException("Id needs to be empty");
+        car.setId(null);
 
         return carService.save(car)
                 .getId();
