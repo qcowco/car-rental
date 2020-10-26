@@ -39,8 +39,7 @@ public class RentalController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public Long save(@Valid @RequestBody Rental rental) {
-        if (Objects.nonNull(rental.getId()))
-            throw new IllegalArgumentException("Id needs to be empty");
+        rental.setId(null);
 
         return rentalService.save(rental)
                 .getId();
