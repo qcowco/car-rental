@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @FeignClient(value = "rental-service", path = "/api/v1/rentals")
 public interface RentalClient {
-    @GetMapping(path = "/{id}", params = { "start", "end" })
+    @GetMapping(path = "/{id}/isFree", params = { "start", "end" })
     boolean isCarFree(@PathVariable Long id,
                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end);
