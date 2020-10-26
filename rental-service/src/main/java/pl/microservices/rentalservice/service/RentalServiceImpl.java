@@ -48,7 +48,7 @@ public class RentalServiceImpl implements RentalService {
 
     @Override
     public boolean isCarFreeInFuture(Long id) {
-        return rentalRepository.existsByCarIdAndDateToAfter(id, LocalDate.now());
+        return !rentalRepository.existsByCarIdAndDateToAfter(id, LocalDate.now());
     }
 
     @Override
