@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import pl.microservices.carservice.model.Car;
 import pl.microservices.carservice.service.CarService;
+import pl.microservices.carservice.web.webclient.client.RentalClient;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -12,9 +13,11 @@ import java.util.Objects;
 @RestController
 @RequestMapping("/api/v1/cars")
 public class CarController {
+    private RentalClient rentalClient;
     private CarService carService;
 
-    public CarController(CarService carService) {
+    public CarController(RentalClient rentalClient, CarService carService) {
+        this.rentalClient = rentalClient;
         this.carService = carService;
     }
 
@@ -46,6 +49,9 @@ public class CarController {
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@PathVariable Long id) {
+        if (!rentalClient.isCarFreeInFuture(id))
+            throw new IllegalArgumentException("Cannot be deleted - this car has rentals planned");
+
         carService.deleteById(id);
     }
 
