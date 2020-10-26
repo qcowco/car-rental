@@ -16,5 +16,7 @@ public interface RentalService {
 
     void deleteById(Long id);
 
+    boolean isCarFreeInFuture(Long id);
+
     boolean isCarFree(Long id, LocalDate start, LocalDate end);
 }

@@ -60,6 +60,11 @@ public class RentalController {
         rentalService.deleteById(id);
     }
 
+    @GetMapping("/{id}/isFree")
+    public boolean isCarFreeInFuture(@PathVariable Long id) {
+        return rentalService.isCarFreeInFuture(id);
+    }
+
     @GetMapping(path = "/{id}/isFree", params = { "start", "end" })
     public boolean isCarFree(@PathVariable Long id,
                              @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
