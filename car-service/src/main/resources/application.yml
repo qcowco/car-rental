@@ -4,6 +4,8 @@ spring:
     name: car-service
 server:
   port: 8090
+  error:
+    include-message: always
 
 #eureka
 eureka:

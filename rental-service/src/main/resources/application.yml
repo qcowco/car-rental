@@ -4,6 +4,8 @@ spring:
     name: rental-service
 server:
   port: 8091
+  error:
+    include-message: always
 
 #eureka
 eureka:
