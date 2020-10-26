@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalrequestservice.model.RentalRequest;
 import pl.microservices.rentalrequestservice.service.RentalRequestService;
 import pl.microservices.rentalrequestservice.web.dto.RequestEvaluation;
-import pl.microservices.rentalrequestservice.web.webclient.CarClient;
-import pl.microservices.rentalrequestservice.web.webclient.RentalClient;
+import pl.microservices.rentalrequestservice.web.webclient.client.CarClient;
+import pl.microservices.rentalrequestservice.web.webclient.client.RentalClient;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;

@@ -1,4 +1,4 @@
-package pl.microservices.rentalrequestservice.web.webclient;
+package pl.microservices.rentalrequestservice.web.webclient.client;
 
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.format.annotation.DateTimeFormat;
