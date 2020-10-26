@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.Objects;
 
 @RestController
+@RequestMapping("/api/v1/rentals")
 public class RentalController {
     private RentalService rentalService;
 
