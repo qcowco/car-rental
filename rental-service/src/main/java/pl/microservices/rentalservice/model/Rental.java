@@ -6,7 +6,7 @@ import javax.persistence.*;
 import javax.validation.constraints.Future;
 import javax.validation.constraints.FutureOrPresent;
 import javax.validation.constraints.NotNull;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -23,8 +23,8 @@ public class Rental {
     @NotNull
     private Long userId;
     @FutureOrPresent
-    private LocalDateTime dateFrom;
+    private LocalDate dateFrom;
     @Future
-    private LocalDateTime dateTo;
+    private LocalDate dateTo;
     private boolean paidFor;
 }
