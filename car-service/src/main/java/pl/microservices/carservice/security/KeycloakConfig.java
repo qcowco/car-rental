@@ -15,8 +15,6 @@ import org.springframework.security.web.authentication.session.SessionAuthentica
 
 @KeycloakConfiguration
 @EnableGlobalMethodSecurity(
-        prePostEnabled = true,
-        securedEnabled = true,
         jsr250Enabled = true
 )
 public class KeycloakConfig extends KeycloakWebSecurityConfigurerAdapter {
