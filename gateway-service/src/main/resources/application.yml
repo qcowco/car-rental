@@ -1,1 +1,13 @@
+#app
+spring:
+  application:
+    name: gateway-service
 
+server:
+  port: 8080
+  error:
+    include-message: always
+
+#zuul
+zuul:
+  sensitive-headers: Cookie,Set-Cookie
