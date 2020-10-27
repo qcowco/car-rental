@@ -6,6 +6,7 @@ import pl.microservices.carservice.model.Car;
 import pl.microservices.carservice.service.CarService;
 import pl.microservices.carservice.web.webclient.client.RentalClient;
 
+import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import java.util.List;
 import java.util.Objects;
@@ -39,6 +40,7 @@ public class CarController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
+    @RolesAllowed({ "moderator", "admin" })
     public Long save(@Valid @RequestBody Car car) {
         car.setId(null);
 
@@ -48,6 +50,7 @@ public class CarController {
 
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({ "moderator", "admin" })
     public void delete(@PathVariable Long id) {
         if (!rentalClient.isCarFreeInFuture(id))
             throw new IllegalArgumentException("Cannot be deleted - this car has rentals planned");
@@ -57,6 +60,7 @@ public class CarController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
+    @RolesAllowed({ "moderator", "admin" })
     public void put(@Valid @RequestBody Car car) {
         if (Objects.isNull(car.getId()))
             throw new IllegalArgumentException("Id need not be null while updating");
