@@ -4,7 +4,7 @@ import org.springframework.data.domain.Page;
 import pl.microservices.rentalrequestservice.model.RentalRequest;
 
 public interface RentalRequestService {
-    Iterable<RentalRequest> findAll();
+    Iterable<RentalRequest> findByUsername(String username);
 
     Page<RentalRequest> findAll(int page, int size);
 

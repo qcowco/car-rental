@@ -6,4 +6,5 @@ import pl.microservices.rentalrequestservice.model.RentalRequest;
 
 @Repository
 public interface RentalRequestRepository extends PagingAndSortingRepository<RentalRequest, Long> {
+    Iterable<RentalRequest> findByUsername(String username);
 }

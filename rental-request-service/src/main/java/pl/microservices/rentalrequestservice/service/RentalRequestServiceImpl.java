@@ -16,8 +16,8 @@ public class RentalRequestServiceImpl implements RentalRequestService {
     }
 
     @Override
-    public Iterable<RentalRequest> findAll() {
-        return rentalRequestRepository.findAll();
+    public Iterable<RentalRequest> findByUsername(String username) {
+        return rentalRequestRepository.findByUsername(username);
     }
 
     @Override
