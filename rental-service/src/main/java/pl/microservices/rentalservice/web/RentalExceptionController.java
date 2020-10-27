@@ -4,6 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import pl.microservices.rentalservice.exception.ResourceNotFoundException;
+import pl.microservices.rentalservice.exception.UnauthorizedRequestException;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -19,5 +20,10 @@ public class RentalExceptionController {
     @ExceptionHandler(value = {ResourceNotFoundException.class})
     public void handleNotFound(HttpServletResponse response, RuntimeException exception) throws IOException {
         response.sendError(HttpStatus.NOT_FOUND.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(value = {UnauthorizedRequestException.class})
+    public void handleUnauthorized(HttpServletResponse response, RuntimeException exception) throws IOException {
+        response.sendError(HttpStatus.UNAUTHORIZED.value(), exception.getMessage());
     }
 }
