@@ -2,7 +2,7 @@ package pl.microservices.rentalservice.web;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalservice.exception.UnauthorizedRequestException;
@@ -11,6 +11,7 @@ import pl.microservices.rentalservice.service.RentalService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -39,9 +40,11 @@ public class RentalController {
 
     @GetMapping("/{id}")
     @RolesAllowed({ "user", "moderator", "admin" })
-    @PreAuthorize("#username == authentication.principal.username || #roles == authentication.authorities")
-    public Rental findById(@PathVariable Long id, String username, Collection<GrantedAuthority> roles) {
+    public Rental findById(@PathVariable Long id, Authentication authentication) {
         Rental rental = rentalService.findById(id);
+
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        String username = ((Principal) authentication.getPrincipal()).getName();
 
         if (isRegularUser(roles))
             ownershipCheck(rental.getUsername(), username);
@@ -49,7 +52,7 @@ public class RentalController {
         return rental;
     }
 
-    private boolean isRegularUser(Collection<GrantedAuthority> roles) {
+    private boolean isRegularUser(Collection<? extends GrantedAuthority> roles) {
         return roles.stream()
                 .map(GrantedAuthority::getAuthority)
                 .noneMatch(role -> role.equals("moderator") || role.equals("admin"));

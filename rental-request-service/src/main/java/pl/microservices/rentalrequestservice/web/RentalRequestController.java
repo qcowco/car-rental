@@ -1,7 +1,7 @@
 package pl.microservices.rentalrequestservice.web;
 
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.web.bind.annotation.*;
 import pl.microservices.rentalrequestservice.exception.UnauthorizedRequestException;
@@ -14,6 +14,7 @@ import pl.microservices.rentalrequestservice.web.webclient.client.RentalClient;
 import javax.annotation.security.RolesAllowed;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import java.security.Principal;
 import java.time.LocalDate;
 import java.util.Collection;
 import java.util.List;
@@ -41,8 +42,9 @@ public class RentalRequestController {
 
     @GetMapping("/users/{requestedUsername}")
     @RolesAllowed({ "user", "moderator", "admin" })
-    @PreAuthorize("#username == authentication.principal.username || #roles == authentication.authorities")
-    public Iterable<RentalRequest> findByUsername(@PathVariable String requestedUsername, String username, Collection<GrantedAuthority> roles) {
+    public Iterable<RentalRequest> findByUsername(@PathVariable String requestedUsername, Authentication authentication) {
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        String username = ((Principal) authentication.getPrincipal()).getName();
 
         if (isRegularUser(roles))
             ownershipCheck(requestedUsername, username);
@@ -52,8 +54,10 @@ public class RentalRequestController {
 
     @GetMapping("/{id}")
     @RolesAllowed({ "user", "moderator", "admin" })
-    @PreAuthorize("#username == authentication.principal.username || #roles == authentication.authorities")
-    public RentalRequest findById(@PathVariable Long id, String username, Collection<GrantedAuthority> roles) {
+    public RentalRequest findById(@PathVariable Long id, Authentication authentication) {
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        String username = ((Principal) authentication.getPrincipal()).getName();
+
         RentalRequest rentalRequest = rentalRequestService.findById(id);
 
         if (isRegularUser(roles))
@@ -65,8 +69,9 @@ public class RentalRequestController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     @RolesAllowed({ "user", "moderator", "admin" })
-    @PreAuthorize("#username == authentication.principal.username")
-    public Long save(@Valid @RequestBody RentalRequest rentalRequest, String username) {
+    public Long save(@Valid @RequestBody RentalRequest rentalRequest, Principal principal) {
+        String username = principal.getName();
+
         rentalRequest.setId(null);
         rentalRequest.setUsername(username);
 
@@ -79,8 +84,10 @@ public class RentalRequestController {
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @RolesAllowed({ "user", "moderator", "admin" })
-    @PreAuthorize("#username == authentication.principal.username || #roles == authentication.authorities")
-    public void put(@Valid @RequestBody RentalRequest rentalRequest, String username, Collection<GrantedAuthority> roles) {
+    public void put(@Valid @RequestBody RentalRequest rentalRequest, Authentication authentication) {
+        Collection<? extends GrantedAuthority> roles = authentication.getAuthorities();
+        String username = ((Principal) authentication.getPrincipal()).getName();
+
         if (Objects.isNull(rentalRequest.getId()))
             throw new IllegalArgumentException("Id need not be null while updating");
 
@@ -92,7 +99,7 @@ public class RentalRequestController {
         rentalRequestService.save(rentalRequest);
     }
 
-    private boolean isRegularUser(Collection<GrantedAuthority> roles) {
+    private boolean isRegularUser(Collection<? extends GrantedAuthority> roles) {
         return roles.stream()
                 .map(GrantedAuthority::getAuthority)
                 .noneMatch(role -> role.equals("moderator") || role.equals("admin"));
