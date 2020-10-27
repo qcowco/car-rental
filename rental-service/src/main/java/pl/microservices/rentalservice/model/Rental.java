@@ -21,7 +21,7 @@ public class Rental {
     @NotNull
     private Long carId;
     @NotNull
-    private Long userId;
+    private String username;
     @FutureOrPresent
     private LocalDate dateFrom;
     @Future
