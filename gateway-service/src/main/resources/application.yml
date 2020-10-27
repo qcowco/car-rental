@@ -11,3 +11,9 @@ server:
 #zuul
 zuul:
   sensitive-headers: Cookie,Set-Cookie
+
+#eureka
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka
