@@ -66,9 +66,9 @@ public class RentalController {
     }
 
     @GetMapping(path = "/{id}/isFree", params = { "start", "end" })
-    public boolean isCarFree(@PathVariable Long id,
-                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
-                             @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
+    public boolean isCarFreeBetween(@PathVariable Long id,
+                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate start,
+                                    @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate end
     ) {
         return rentalService.isCarFree(id, start, end);
     }
