@@ -18,8 +18,8 @@ public class RentalServiceImpl implements RentalService {
     }
 
     @Override
-    public Iterable<Rental> findAll() {
-        return rentalRepository.findAll();
+    public Iterable<Rental> findByUsername(String username) {
+        return rentalRepository.findByUsername(username);
     }
 
     @Override

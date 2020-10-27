@@ -31,6 +31,11 @@ public class RentalController {
                 .getContent();
     }
 
+    @GetMapping("/users/{requestedUsername}")
+    public Iterable<Rental> findByUsername(@PathVariable String requestedUsername) {
+        return rentalService.findByUsername(requestedUsername);
+    }
+
     @GetMapping("/{id}")
     public Rental findById(@PathVariable Long id) {
         return rentalService.findById(id);

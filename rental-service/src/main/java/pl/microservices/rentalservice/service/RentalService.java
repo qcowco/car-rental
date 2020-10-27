@@ -6,7 +6,7 @@ import pl.microservices.rentalservice.model.Rental;
 import java.time.LocalDate;
 
 public interface RentalService {
-    Iterable<Rental> findAll();
+    Iterable<Rental> findByUsername(String username);
 
     Page<Rental> findAll(int page, int size);
 
