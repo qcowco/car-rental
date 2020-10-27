@@ -2,6 +2,9 @@
 spring:
   application:
     name: car-service
+  main:
+    allow-bean-definition-overriding: true
+
 server:
   port: 8090
   error:
@@ -12,3 +15,13 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8081/eureka
+
+#keycloak
+keycloak:
+  auth-server-url: http://localhost:8080/auth
+  realm: SpringBootKeycloak
+  resource: auth-app
+  public-client: false
+  principal-attribute: preferred_username
+  credentials:
+    secret: 040afe3d-9d18-4001-965a-f3fbc317b20b
