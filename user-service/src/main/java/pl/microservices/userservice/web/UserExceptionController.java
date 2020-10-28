@@ -17,6 +17,11 @@ import java.util.List;
 
 @ControllerAdvice
 public class UserExceptionController {
+    @ExceptionHandler(value = {IllegalArgumentException.class})
+    public void handleIllegalArguments(HttpServletResponse response, HttpResponseException exception) throws IOException {
+        response.sendError(HttpServletResponse.SC_BAD_REQUEST, exception.getMessage());
+    }
+
     @ExceptionHandler(value = {HttpResponseException.class})
     public void handleHttpResponseException(HttpServletResponse response, HttpResponseException exception) throws IOException {
         String message = exception.getReasonPhrase();

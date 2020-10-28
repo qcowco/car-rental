@@ -35,9 +35,30 @@ public class UserController {
         RealmResource realmResource = keycloak.realm("SpringBootKeycloak");
         UsersResource users = realmResource.users();
 
+        accountIsUnique(userRequest, users);
+
         UserRepresentation userRepresentation = userService.getUserRepresentation(userRequest);
 
         users.create(userRepresentation);
+    }
+
+    private void accountIsUnique(@RequestBody @Valid UserRequest userRequest, UsersResource users) {
+        usernameIsUnique(users, userRequest.getUsername());
+
+        emailIsUnique(users, userRequest.getEmail());
+    }
+
+    private void emailIsUnique(UsersResource users, String email) {
+        boolean present = users.list()
+                .stream()
+                .anyMatch(user -> user.getEmail().equals(email));
+        if (present)
+            throw new IllegalArgumentException("Email is already in use");
+    }
+
+    private void usernameIsUnique(UsersResource users, String username) {
+        if (users.search(username).size() > 0)
+            throw new IllegalArgumentException("Username is already in use");
     }
 
     @PostMapping("/login")
