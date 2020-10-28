@@ -25,3 +25,4 @@ keycloak:
   principal-attribute: preferred_username
   credentials:
     secret: 040afe3d-9d18-4001-965a-f3fbc317b20b
+  bearer-only: true
