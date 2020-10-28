@@ -24,6 +24,8 @@
         <module>discovery-service</module>
         <module>rental-request-service</module>
         <module>rental-service</module>
+        <module>gateway-service</module>
+        <module>user-service</module>
     </modules>
 
     <build>
