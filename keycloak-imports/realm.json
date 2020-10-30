@@ -1,0 +1,164 @@
+{
+  "realm": "CarRental",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": true,
+  "registrationEmailAsUsername": false,
+  "verifyEmail": false,
+  "loginWithEmailAllowed": true,
+  "duplicateEmailsAllowed": false,
+  "resetPasswordAllowed": true,
+  "editUsernameAllowed": false,
+  "users": [
+    {
+      "username": "user-mgr",
+      "enabled": true,
+      "credentials": [
+        {
+          "type": "password",
+          "value": "user-mgr"
+        }
+      ],
+      "clientRoles": {
+        "user-mgr-client": [ "user-manager" ]
+      }
+    }
+  ],
+  "roles": {
+    "realm": [
+      {
+        "id": "fda34901-36cd-4cf7-987b-ad92069e41db",
+        "name": "admin",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "moderator",
+            "user"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "CarRental",
+        "attributes": {}
+      },
+      {
+        "id": "62c73672-e032-487f-a24c-527d43c34ffc",
+        "name": "moderator",
+        "composite": true,
+        "composites": {
+          "realm": [
+            "user"
+          ]
+        },
+        "clientRole": false,
+        "containerId": "CarRental",
+        "attributes": {}
+      },
+      {
+        "id": "317d3e93-020d-46ba-92c7-7776196ac233",
+        "name": "user",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "CarRental",
+        "attributes": {}
+      }
+    ],
+    "client": {
+      "rental-client": [
+        {
+          "id": "2906ea7b-44ba-4bf7-9f1c-7251259419f0",
+          "name": "user-management",
+          "composite": true,
+          "composites": {
+            "client": {
+              "realm-management": [
+                "view-users",
+                "manage-authorization",
+                "view-authorization",
+                "manage-users"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "00f92e20-bb6c-4bf1-b725-7885cf42c7c6",
+          "attributes": {}
+        },
+        {
+          "id": "3722a1bc-a980-4584-acf7-12542c1bf940",
+          "name": "uma_protection",
+          "composite": false,
+          "clientRole": true,
+          "containerId": "00f92e20-bb6c-4bf1-b725-7885cf42c7c6",
+          "attributes": {}
+        }
+      ],
+      "user-mgr-client": [
+        {
+          "id": "f24a9dfc-0750-40d9-b323-303670611c3f",
+          "name": "user-manager",
+          "composite": true,
+          "composites": {
+            "client": {
+              "realm-management": [
+                "view-users",
+                "manage-authorization",
+                "manage-users"
+              ]
+            }
+          },
+          "clientRole": true,
+          "containerId": "98cbd7e4-8282-4d9b-b665-b385d99182cb",
+          "attributes": {}
+        }
+      ]
+    }
+  },
+  "clients": [
+    {
+      "clientId": "rental-client",
+      "adminUrl": "",
+      "baseUrl": "",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "tajnysekret",
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [],
+      "notBefore": 0,
+      "bearerOnly": true,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": true,
+      "authorizationServicesEnabled": true,
+      "publicClient": false,
+      "frontchannelLogout": false
+    },
+    {
+      "clientId": "user-mgr-client",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "alwaysDisplayInConsole": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "tajnysekret",
+      "redirectUris": [
+        "http://localhost:8080/*",
+        "*",
+        "http://localhost:8000/*"
+      ],
+      "webOrigins": [],
+      "notBefore": 0,
+      "bearerOnly": true,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": false,
+      "frontchannelLogout": false
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+services:
+  keycloak:
+    image: jboss/keycloak
+    container_name: keycloak
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./keycloak-imports:/opt/jboss/keycloak/imports
+    environment:
+      KEYCLOAK_USER: admin
+      KEYCLOAK_PASSWORD: admin2
+      KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm.json
+      KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
