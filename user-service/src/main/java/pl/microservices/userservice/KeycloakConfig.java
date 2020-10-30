@@ -1,25 +1,39 @@
 package pl.microservices.userservice;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.jboss.resteasy.client.jaxrs.ResteasyClientBuilder;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.KeycloakBuilder;
-import org.keycloak.authorization.client.AuthzClient;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.Map;
 
 @Configuration
+@EnableConfigurationProperties(KeycloakConfig.class)
+@ConfigurationProperties(prefix = "keycloak")
+@Getter
+@Setter
 public class KeycloakConfig {
+    private String authServerUrl;
+    private String realm;
+    private String clientId;
+    private String clientSecret;
+    private String username;
+    private String password;
+
     @Bean
     public Keycloak keycloak() {
         return KeycloakBuilder.builder()
-                .serverUrl("http://localhost:8080/auth")
-                .realm("SpringBootKeycloak")
-                .clientId("auth-app")
-                .clientSecret("040afe3d-9d18-4001-965a-f3fbc317b20b")
-                .username("usermngr")
-                .password("mngr")
+                .serverUrl(authServerUrl)
+                .realm(realm)
+                .clientId(clientId)
+                .clientSecret(clientSecret)
+                .username(username)
+                .password(password)
                 .resteasyClient(
                         new ResteasyClientBuilder()
                                 .connectionPoolSize(10).build()
@@ -30,10 +44,10 @@ public class KeycloakConfig {
     @Bean
     public org.keycloak.authorization.client.Configuration configuration() {
         return new org.keycloak.authorization.client.Configuration(
-                "http://localhost:8080/auth",
-                "SpringBootKeycloak",
-                "auth-app",
-                Map.of("secret", "040afe3d-9d18-4001-965a-f3fbc317b20b"),
+                authServerUrl,
+                realm,
+                clientId,
+                Map.of("secret", clientSecret),
                 null);
     }
 
