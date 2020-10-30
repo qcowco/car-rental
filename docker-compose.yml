@@ -92,3 +92,23 @@ services:
     links:
       - discovery-service
       - keycloak
+
+  user-service:
+    image: user-service
+    container_name: user-service
+    build:
+      context: ./user-service
+      dockerfile: Dockerfile
+    ports:
+      - "8099:8099"
+    environment:
+      EUREKA_DEFAULTZONE: http://discovery-service:8761/eureka
+      KEYCLOAK_AUTH: http://keycloak:8080/auth
+      KEYCLOAK_REALM: CarRental
+      KEYCLOAK_CLIENT: user-mgr-client
+      KEYCLOAK_CLIENT_SECRET: tajnysekret
+      KEYCLOAK_USERNAME: user-mgr
+      KEYCLOAK_PASSWORD: user-mgr
+    links:
+      - discovery-service
+      - keycloak
