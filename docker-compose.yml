@@ -35,9 +35,6 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
-    links:
-      - discovery-service
-      - keycloak
 
   gateway-service:
     image: gateway-service
@@ -53,9 +50,6 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
-    links:
-      - discovery-service
-      - keycloak
 
   rental-request-service:
     image: rental-request-service
@@ -71,9 +65,6 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
-    links:
-      - discovery-service
-      - keycloak
 
   rental-service:
     image: rental-service
@@ -89,9 +80,6 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
-    links:
-      - discovery-service
-      - keycloak
 
   user-service:
     image: user-service
@@ -109,6 +97,3 @@ services:
       KEYCLOAK_CLIENT_SECRET: tajnysekret
       KEYCLOAK_USERNAME: user-mgr
       KEYCLOAK_PASSWORD: user-mgr
-    links:
-      - discovery-service
-      - keycloak
