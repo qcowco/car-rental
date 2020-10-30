@@ -74,3 +74,21 @@ services:
     links:
       - discovery-service
       - keycloak
+
+  rental-service:
+    image: rental-service
+    container_name: rental-service
+    build:
+      context: ./rental-service
+      dockerfile: Dockerfile
+    ports:
+      - "8091:8091"
+    environment:
+      EUREKA_DEFAULTZONE: http://discovery-service:8761/eureka
+      KEYCLOAK_AUTH: http://keycloak:8080/auth
+      KEYCLOAK_REALM: CarRental
+      KEYCLOAK_CLIENT: rental-client
+      KEYCLOAK_CLIENT_SECRET: tajnysekret
+    links:
+      - discovery-service
+      - keycloak
