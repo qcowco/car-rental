@@ -28,14 +28,13 @@ public class KeycloakConfig {
     }
 
     @Bean
-    public AuthzClient authzClient() {
-        org.keycloak.authorization.client.Configuration configuration = new org.keycloak.authorization.client.Configuration(
+    public org.keycloak.authorization.client.Configuration configuration() {
+        return new org.keycloak.authorization.client.Configuration(
                 "http://localhost:8080/auth",
                 "SpringBootKeycloak",
                 "auth-app",
                 Map.of("secret", "040afe3d-9d18-4001-965a-f3fbc317b20b"),
                 null);
-
-        return AuthzClient.create(configuration);
     }
+
 }

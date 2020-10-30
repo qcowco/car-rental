@@ -4,6 +4,7 @@ import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.authorization.client.AuthzClient;
+import org.keycloak.authorization.client.Configuration;
 import org.keycloak.representations.AccessTokenResponse;
 import org.keycloak.representations.idm.UserRepresentation;
 import org.springframework.http.HttpStatus;
@@ -21,12 +22,13 @@ import javax.validation.Valid;
 public class UserController {
     private UserService userService;
     private Keycloak keycloak;
+    private Configuration configuration;
     private AuthzClient authzClient;
 
-    public UserController(UserService userService, Keycloak keycloak, AuthzClient authzClient) {
+    public UserController(UserService userService, Keycloak keycloak, Configuration configuration) {
         this.userService = userService;
         this.keycloak = keycloak;
-        this.authzClient = authzClient;
+        this.configuration = configuration;
     }
 
     @PostMapping("/register")
@@ -63,7 +65,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@Valid @RequestBody LoginRequest loginRequest) {
-        AccessTokenResponse accessTokenResponse = authzClient.obtainAccessToken(
+        AccessTokenResponse accessTokenResponse = getAuthzClient().obtainAccessToken(
                 loginRequest.getUsername(),
                 loginRequest.getPassword()
         );
@@ -71,4 +73,10 @@ public class UserController {
         return accessTokenResponse.getToken();
     }
 
+    private AuthzClient getAuthzClient() {
+        if (authzClient == null)
+            authzClient = AuthzClient.create(configuration);
+
+        return authzClient;
+    }
 }
