@@ -11,3 +11,12 @@ services:
       KEYCLOAK_PASSWORD: admin2
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm.json
       KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
+
+  discovery-service:
+    image: discovery-service
+    container_name: discovery-service
+    build:
+      context: ./discovery-service
+      dockerfile: Dockerfile
+    ports:
+      - "8761:8761"
