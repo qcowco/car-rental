@@ -38,3 +38,21 @@ services:
     links:
       - discovery-service
       - keycloak
+
+  gateway-service:
+    image: gateway-service
+    container_name: gateway-service
+    build:
+      context: ./gateway-service
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      EUREKA_DEFAULTZONE: http://discovery-service:8761/eureka
+      KEYCLOAK_AUTH: http://keycloak:8080/auth
+      KEYCLOAK_REALM: CarRental
+      KEYCLOAK_CLIENT: rental-client
+      KEYCLOAK_CLIENT_SECRET: tajnysekret
+    links:
+      - discovery-service
+      - keycloak
