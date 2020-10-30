@@ -14,15 +14,15 @@ server:
 eureka:
   client:
     service-url:
-      defaultZone: http://localhost:8081/eureka
+      defaultZone: ${EUREKA_DEFAULTZONE}
 
 #keycloak
 keycloak:
-  auth-server-url: http://localhost:8080/auth
-  realm: SpringBootKeycloak
-  resource: auth-app
+  auth-server-url: ${KEYCLOAK_AUTH}
+  realm: ${KEYCLOAK_REALM}
+  resource: ${KEYCLOAK_CLIENT}
   public-client: false
   principal-attribute: preferred_username
   credentials:
-    secret: 040afe3d-9d18-4001-965a-f3fbc317b20b
+    secret: ${KEYCLOAK_CLIENT_SECRET}
   bearer-only: true
