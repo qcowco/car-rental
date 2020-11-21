@@ -1,4 +1,19 @@
+version: "3.8"
+
 services:
+  mysql:
+    image: mysql/mysql-server
+    container_name: mysql-server
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: CarRentalDb
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password
+
   keycloak:
     image: jboss/keycloak
     container_name: keycloak
@@ -11,6 +26,12 @@ services:
       KEYCLOAK_PASSWORD: admin2
       KEYCLOAK_IMPORT: /opt/jboss/keycloak/imports/realm.json
       KEYCLOAK_FRONTEND_URL: http://localhost:8080/auth
+      DB_VENDOR: mysql
+      DB_DATABASE: CarRentalDb
+      DB_USER: user
+      DB_PASSWORD: password
+    depends_on:
+      - mysql
 
   discovery-service:
     image: discovery-service
@@ -35,6 +56,13 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
+      DATABASE_HOST: mysql:3306
+      DATABASE_NAME: CarRentalDb
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+    depends_on:
+      - mysql
+      - discovery-service
 
   gateway-service:
     image: gateway-service
@@ -50,6 +78,8 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
+    depends_on:
+      - discovery-service
 
   rental-request-service:
     image: rental-request-service
@@ -65,6 +95,13 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
+      DATABASE_HOST: mysql:3306
+      DATABASE_NAME: CarRentalDb
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+    depends_on:
+      - mysql
+      - discovery-service
 
   rental-service:
     image: rental-service
@@ -80,6 +117,13 @@ services:
       KEYCLOAK_REALM: CarRental
       KEYCLOAK_CLIENT: rental-client
       KEYCLOAK_CLIENT_SECRET: tajnysekret
+      DATABASE_HOST: mysql:3306
+      DATABASE_NAME: CarRentalDb
+      DATABASE_USER: user
+      DATABASE_PASSWORD: password
+    depends_on:
+      - mysql
+      - discovery-service
 
   user-service:
     image: user-service
@@ -97,3 +141,9 @@ services:
       KEYCLOAK_CLIENT_SECRET: tajnysekret
       KEYCLOAK_USERNAME: user-mgr
       KEYCLOAK_PASSWORD: user-mgr
+    depends_on:
+      - keycloak
+      - discovery-service
+
+volumes:
+  mysql-data:

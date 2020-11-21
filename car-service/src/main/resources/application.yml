@@ -4,6 +4,14 @@ spring:
     name: car-service
   main:
     allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://${DATABASE_HOST}/${DATABASE_NAME}
+    username: ${DATABASE_USER}
+    password: ${DATABASE_PASSWORD}
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
 
 server:
   port: 8090
@@ -26,4 +34,3 @@ keycloak:
   credentials:
     secret: ${KEYCLOAK_CLIENT_SECRET}
   bearer-only: true
-
