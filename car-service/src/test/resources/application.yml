@@ -1,0 +1,10 @@
+#app configs
+spring:
+  datasource:
+    url: jdbc:mysql://placeholder/placeholder
+    username: placeholder
+    password: placeholder
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
