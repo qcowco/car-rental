@@ -3,7 +3,7 @@ package pl.microservices.rentalrequestservice.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pl.microservices.rentalrequestservice.dao.RentalRequestRepository;
+import pl.microservices.rentalrequestservice.repository.RentalRequestRepository;
 import pl.microservices.rentalrequestservice.exception.ResourceNotFoundException;
 import pl.microservices.rentalrequestservice.model.RentalRequest;
 

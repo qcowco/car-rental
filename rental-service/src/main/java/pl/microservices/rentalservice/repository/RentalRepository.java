@@ -1,4 +1,4 @@
-package pl.microservices.rentalservice.dao;
+package pl.microservices.rentalservice.repository;
 
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;

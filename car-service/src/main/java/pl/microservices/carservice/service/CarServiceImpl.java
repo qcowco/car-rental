@@ -3,7 +3,7 @@ package pl.microservices.carservice.service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-import pl.microservices.carservice.dao.CarRepository;
+import pl.microservices.carservice.repository.CarRepository;
 import pl.microservices.carservice.exception.ResourceNotFoundException;
 import pl.microservices.carservice.model.Car;
 

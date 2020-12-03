@@ -9,7 +9,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import pl.microservices.carservice.dao.CarRepository;
+import pl.microservices.carservice.repository.CarRepository;
 import pl.microservices.carservice.exception.ResourceNotFoundException;
 import pl.microservices.carservice.model.Car;
 
