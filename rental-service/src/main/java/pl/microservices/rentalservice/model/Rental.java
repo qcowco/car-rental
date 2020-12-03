@@ -1,6 +1,7 @@
 package pl.microservices.rentalservice.model;
 
 import lombok.Data;
+import pl.microservices.rentalservice.model.validator.FutureAfterDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.Future;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 
 @Entity
 @Data
+@FutureAfterDate(earlierDate = "dateFrom", laterDate = "dateTo")
 public class Rental {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequence_generator")
