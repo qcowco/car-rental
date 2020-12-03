@@ -29,7 +29,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -56,9 +55,11 @@ class CarControllerIntegrationTest {
     @MockBean
     private RentalClient rentalClient;
 
+    private Car car = new Car();
+
     @DisplayName("Given cars are being requested")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class GetAll {
         private List<Car> cars;
 
@@ -74,7 +75,6 @@ class CarControllerIntegrationTest {
         @Test
         public void shouldReturnAllCars() throws Exception {
             mockMvc.perform(get(BASE_URL))
-                    .andDo(print())
                     .andExpect(content().json(objectMapper.writeValueAsString(cars)));
         }
 
@@ -82,13 +82,12 @@ class CarControllerIntegrationTest {
         @Test
         public void shouldReturnHttpStatusOk() throws Exception {
             mockMvc.perform(get(BASE_URL))
-                    .andDo(print())
                     .andExpect(status().isOk());
         }
 
         @DisplayName("When paging is defined")
         @Nested
-        @WithMockUser(username = "USERNAME")
+        @WithMockUser
         class WithPaging {
             private MultiValueMap<String, String> params;
 
@@ -112,7 +111,6 @@ class CarControllerIntegrationTest {
             @Test
             public void shouldReturnCars() throws Exception {
                 mockMvc.perform(get(BASE_URL).params(params))
-                        .andDo(print())
                         .andExpect(content().json(objectMapper.writeValueAsString(cars)));
             }
 
@@ -120,7 +118,6 @@ class CarControllerIntegrationTest {
             @Test
             public void shouldReturnHttpStatusOk() throws Exception {
                 mockMvc.perform(get(BASE_URL).params(params))
-                        .andDo(print())
                         .andExpect(status().isOk());
             }
         }
@@ -128,14 +125,11 @@ class CarControllerIntegrationTest {
 
     @DisplayName("Given a car is being requested")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class GetOne {
-        private Car car;
 
         @BeforeEach
         public void setup() {
-            car = new Car();
-
             when(carService.findById(CAR_ID))
                     .thenReturn(car);
         }
@@ -144,7 +138,6 @@ class CarControllerIntegrationTest {
         @Test
         public void shouldReturnCar() throws Exception {
             mockMvc.perform(get(CAR_URL))
-                    .andDo(print())
                     .andExpect(content().json(objectMapper.writeValueAsString(car)));
         }
 
@@ -152,13 +145,12 @@ class CarControllerIntegrationTest {
         @Test
         public void shouldReturnHttpStatusOk() throws Exception {
             mockMvc.perform(get(CAR_URL))
-                    .andDo(print())
                     .andExpect(status().isOk());
         }
 
         @DisplayName("When car isn't found")
         @Nested
-        @WithMockUser(username = "USERNAME")
+        @WithMockUser
         class CarNotFound {
 
             @DisplayName("Then return HTTP status Not Found")
@@ -168,7 +160,6 @@ class CarControllerIntegrationTest {
                         .thenThrow(ResourceNotFoundException.class);
 
                 mockMvc.perform(get(CAR_URL))
-                        .andDo(print())
                         .andExpect(status().isNotFound());
             }
         }
@@ -176,14 +167,12 @@ class CarControllerIntegrationTest {
 
     @DisplayName("Given a car is being saved")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class SavingCar {
-        private Car car;
         private Car returnedCar;
 
         @BeforeEach
         public void setup() {
-            car = new Car();
             returnedCar = new Car();
             returnedCar.setId(CAR_ID);
 
@@ -198,7 +187,6 @@ class CarControllerIntegrationTest {
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(car)))
-                    .andDo(print())
                     .andExpect(content().json(objectMapper.writeValueAsString(returnedCar.getId())));
         }
 
@@ -209,14 +197,13 @@ class CarControllerIntegrationTest {
                         .with(csrf())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(car)))
-                    .andDo(print())
                     .andExpect(status().isCreated());
         }
     }
 
     @DisplayName("Given a car is being deleted")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class DeleteCar {
 
         @DisplayName("Then returns HTTP status No Content")
@@ -227,13 +214,12 @@ class CarControllerIntegrationTest {
 
             mockMvc.perform(delete(CAR_URL)
                         .with(csrf()))
-                    .andDo(print())
                     .andExpect(status().isNoContent());
         }
 
         @DisplayName("When car is already booked in the future")
         @Nested
-        @WithMockUser(username = "USERNAME")
+        @WithMockUser
         class BookedCar {
 
             @DisplayName("Then returns HTTP status Bad Request")
@@ -244,7 +230,6 @@ class CarControllerIntegrationTest {
 
                 mockMvc.perform(delete(CAR_URL)
                             .with(csrf()))
-                        .andDo(print())
                         .andExpect(status().isBadRequest());
             }
 
@@ -253,7 +238,7 @@ class CarControllerIntegrationTest {
 
     @DisplayName("Given a car is being updated")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class UpdateCar {
 
         @DisplayName("Then returns HTTP status No Content")
@@ -266,25 +251,21 @@ class CarControllerIntegrationTest {
                                 .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON)
                                 .content(objectMapper.writeValueAsString(car)))
-                    .andDo(print())
                     .andExpect(status().isNoContent());
         }
 
         @DisplayName("When request lacks car id")
         @Nested
-        @WithMockUser(username = "USERNAME")
+        @WithMockUser
         class NoCarId {
 
             @DisplayName("Then returns HTTP status Invalid Request")
             @Test
             public void shouldReturnHttpStatusInvalidRequest() throws Exception {
-                Car car = new Car();
-
                 mockMvc.perform(put(BASE_URL)
                                     .with(csrf())
                                     .contentType(MediaType.APPLICATION_JSON)
                                     .content(objectMapper.writeValueAsString(car)))
-                        .andDo(print())
                         .andExpect(status().isBadRequest());
             }
         }
@@ -292,7 +273,7 @@ class CarControllerIntegrationTest {
 
     @DisplayName("Given an invalid car is sent")
     @Nested
-    @WithMockUser(username = "USERNAME")
+    @WithMockUser
     class InvalidCar {
         private Car invalidCar;
 
@@ -309,7 +290,6 @@ class CarControllerIntegrationTest {
                     .with(csrf())
                     .contentType(MediaType.APPLICATION_JSON)
                     .content(objectMapper.writeValueAsString(invalidCar)))
-                    .andDo(print())
                     .andExpect(status().isBadRequest());
         }
     }
