@@ -34,6 +34,7 @@ public class RentalController {
     }
 
     @GetMapping("/users/{requestedUsername}")
+    @RolesAllowed({ "user", "moderator", "admin" })
     public Iterable<Rental> findByUsername(@PathVariable String requestedUsername) {
         return rentalService.findByUsername(requestedUsername);
     }
